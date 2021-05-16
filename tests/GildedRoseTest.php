@@ -120,6 +120,38 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(0, $items[0]->quality);
     }
 
+    public function testOneDayMultipleItemsUpdateQuality() :void
+    {
+        $items = [
+            new Item('+5 Zweihander', 10, 20),
+            new Item('Aged Brie', 2, 0),
+            new Item('Sulfuras, Hand of Ragnaros', 0, 80),
+            new Item('Backstage passes to a TAFKAL80ETC concert', 10, 20),
+            // this conjured item does not work properly yet
+            new Item('Conjured Mana Cake', 3, 6),
+        ];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertCount(5, $gildedRose->getItems());
+        $this->assertEquals('+5 Zweihander', $items[0]->name);
+        $this->assertEquals(9, $items[0]->sell_in);
+        $this->assertEquals(19, $items[0]->quality);
 
+        $this->assertEquals('Aged Brie', $items[1]->name);
+        $this->assertEquals(1, $items[1]->sell_in);
+        $this->assertEquals(1, $items[1]->quality);
+
+        $this->assertEquals('Sulfuras, Hand of Ragnaros', $items[2]->name);
+        $this->assertEquals(0, $items[2]->sell_in);
+        $this->assertEquals(80, $items[2]->quality);
+
+        $this->assertEquals('Backstage passes to a TAFKAL80ETC concert', $items[3]->name);
+        $this->assertEquals(9, $items[3]->sell_in);
+        $this->assertEquals(22, $items[3]->quality);
+
+        $this->assertEquals('Conjured Mana Cake', $items[4]->name);
+        $this->assertEquals(2, $items[4]->sell_in);
+        $this->assertEquals(5, $items[4]->quality);
+    }
 
 }
