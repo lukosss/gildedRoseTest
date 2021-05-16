@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GildedRose;
 
+use GildedRose\ItemTypes\AgedBrie;
+
 final class GildedRose
 {
     /**
@@ -35,14 +37,24 @@ final class GildedRose
         return str_contains(ucfirst($name), $type);
     }
 
+    /**
+     * @param ItemTypeInterface $itemType
+     * @param int $quality
+     * @return int
+     */
+    public function itemTypeUpdateQuality(ItemTypeInterface $itemType, int $quality): int{
+        return $itemType->updateItemQuality($quality);
+    }
+
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
             switch ($item->name) {
 
                 case $this->checkItemType($item->name, 'Aged Brie'):
-                    if ($item->quality < 50) $item->quality += 1;
-                        $item->sell_in -= 1;
+                    $itemType = new AgedBrie();
+                    $item->quality = $this->itemTypeUpdateQuality($itemType, $item->quality);
+                    $item->sell_in -= 1;
                     break;
 
                 case ($this->checkItemType($item->name, 'Backstage passes') && $item->quality < 50): {
