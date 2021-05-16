@@ -27,50 +27,62 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
-            if (!str_contains(ucfirst($item->name), 'Aged Brie') && !str_contains(ucfirst($item->name), 'Backstage passes')) {
-                if ($item->quality > 0) {
-                    if (!str_contains(ucfirst($item->name), 'Sulfuras')) {
-                        $item->quality = $item->quality - 1;
-                    }
-                }
-            } else {
-                if ($item->quality < 50) {
-                    $item->quality = $item->quality + 1;
-                    if (str_contains(ucfirst($item->name), 'Backstage passes')) {
-                        if ($item->sell_in < 11) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                        if ($item->sell_in < 6) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
+            switch ($item->name) {
 
-            if (!str_contains(ucfirst($item->name), 'Sulfuras')) {
-                $item->sell_in = $item->sell_in - 1;
-            }
+                case (str_contains(ucfirst($item->name), 'Aged Brie')):
+                    if ($item->quality < 50) $item->quality += 1;
+                        $item->sell_in -= 1;
+                    break;
 
-            if ($item->sell_in < 0) {
-                if (!str_contains(ucfirst($item->name), 'Aged Brie')) {
-                    if (!str_contains(ucfirst($item->name), 'Backstage passes')) {
-                        if ($item->quality > 0) {
-                            if (!str_contains(ucfirst($item->name), 'Sulfuras')) {
-                                $item->quality = $item->quality - 1;
-                            }
-                        }
-                    } else {
-                        $item->quality = $item->quality - $item->quality;
-                    }
-                } else {
-                    if ($item->quality < 50) {
-                        $item->quality = $item->quality + 1;
+                case (str_contains(ucfirst($item->name), 'Backstage passes') && $item->quality < 50): {
+                    switch ($item->sell_in){
+                        case ($item->sell_in < 0):
+                            $item->quality = 0;
+                            $item->sell_in -= 1;
+                            break;
+
+                        case ($item->sell_in < 6):
+                            $item->quality += 3;
+                            $item->sell_in -= 1;
+                            break;
+
+                        case ($item->sell_in < 11):
+                            $item->quality += 2;
+                            $item->sell_in -= 1;
+                            break;
+
+                        case ($item->sell_in >= 11):
+                            $item->quality += 1;
+                            $item->sell_in -= 1;
+                            break;
                     }
                 }
+                    break;
+
+                case (str_contains(ucfirst($item->name), 'Sulfuras')):
+                    $item->quality = 80;
+                    break;
+
+                case (str_contains(ucfirst($item->name), 'Conjured')):
+                    if ($item->quality > 1 && $item->sell_in > 0) {
+                        $item->quality -= 2;
+                    } elseif ($item->quality > 3 && $item->sell_in <= 0) {
+                        $item->quality -= 4;
+                    } elseif ($item->quality <= 3 && $item->sell_in <= 0) {
+                        $item->quality = 0;
+                    }
+                    $item->sell_in -= 1;
+                    break;
+
+                default:
+                    if ($item->quality > 0 && $item->sell_in > 0) {
+                        $item->quality -= 1;
+                    } elseif ($item->quality > 1 && $item->sell_in <= 0) {
+                        $item->quality -= 2;
+                    } elseif ($item->quality == 1 && $item->sell_in <= 0) {
+                        $item->quality -= 1;
+                    }
+                    $item->sell_in -= 1;
             }
         }
     }

@@ -72,6 +72,31 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(31, $items[0]->quality);
     }
 
+    public function testIfQualityDegradesTwiceAsFastAfterSellInForConjuredItems() :void
+    {
+        $items = [new Item('Conjured Shield', 0, 35)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertSame('Conjured Shield', $items[0]->name);
+        $this->assertEquals(-1, $items[0]->sell_in);
+        $this->assertEquals(31, $items[0]->quality);
+        $gildedRose->updateQuality();
+        $this->assertEquals(-2, $items[0]->sell_in);
+        $this->assertEquals(27, $items[0]->quality);
+    }
+
+    public function testIfQualityOfAConjuredItemIsNeverNegative() :void
+    {
+        $items = [new Item('Conjured Shield', 0, 5)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(-1, $items[0]->sell_in);
+        $this->assertEquals(1, $items[0]->quality);
+        $gildedRose->updateQuality();
+        $this->assertEquals(-2, $items[0]->sell_in);
+        $this->assertEquals(0, $items[0]->quality);
+    }
+
     public function testIfQualityOfAnItemIsNeverNegative() :void
     {
         $items = [new Item('Shield', 0, 1)];
@@ -124,7 +149,7 @@ class GildedRoseTest extends TestCase
     {
         $items = [
             new Item('+5 Zweihander', 10, 20),
-            new Item('Aged Brie', 2, 0),
+            new Item('Aged Brie', 7, 0),
             new Item('Shield of Sulfuras', 0, 80),
             new Item('Backstage passes to a TAFKAL80ETC concert', 10, 20),
             // this conjured item does not work properly yet
@@ -138,7 +163,7 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(19, $items[0]->quality);
 
         $this->assertEquals('Aged Brie', $items[1]->name);
-        $this->assertEquals(1, $items[1]->sell_in);
+        $this->assertEquals(6, $items[1]->sell_in);
         $this->assertEquals(1, $items[1]->quality);
 
         $this->assertEquals('Shield of Sulfuras', $items[2]->name);
@@ -151,7 +176,7 @@ class GildedRoseTest extends TestCase
 
         $this->assertEquals('Conjured Mana Cake', $items[4]->name);
         $this->assertEquals(2, $items[4]->sell_in);
-        $this->assertEquals(5, $items[4]->quality);
+        $this->assertEquals(4, $items[4]->quality);
     }
 
 }
