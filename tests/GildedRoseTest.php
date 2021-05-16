@@ -125,7 +125,7 @@ class GildedRoseTest extends TestCase
         $items = [
             new Item('+5 Zweihander', 10, 20),
             new Item('Aged Brie', 2, 0),
-            new Item('Sulfuras, Hand of Ragnaros', 0, 80),
+            new Item('Shield of Sulfuras', 0, 80),
             new Item('Backstage passes to a TAFKAL80ETC concert', 10, 20),
             // this conjured item does not work properly yet
             new Item('Conjured Mana Cake', 3, 6),
@@ -141,7 +141,7 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(1, $items[1]->sell_in);
         $this->assertEquals(1, $items[1]->quality);
 
-        $this->assertEquals('Sulfuras, Hand of Ragnaros', $items[2]->name);
+        $this->assertEquals('Shield of Sulfuras', $items[2]->name);
         $this->assertEquals(0, $items[2]->sell_in);
         $this->assertEquals(80, $items[2]->quality);
 
