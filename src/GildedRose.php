@@ -24,17 +24,28 @@ final class GildedRose
         return $this->items;
     }
 
+    /**
+     * Check if item name contains which type of item it is
+     * @param string $name
+     * @param string $type
+     * @return bool
+     */
+    public function checkItemType(string $name, string $type): bool
+    {
+        return str_contains(ucfirst($name), $type);
+    }
+
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
             switch ($item->name) {
 
-                case (str_contains(ucfirst($item->name), 'Aged Brie')):
+                case $this->checkItemType($item->name, 'Aged Brie'):
                     if ($item->quality < 50) $item->quality += 1;
                         $item->sell_in -= 1;
                     break;
 
-                case (str_contains(ucfirst($item->name), 'Backstage passes') && $item->quality < 50): {
+                case ($this->checkItemType($item->name, 'Backstage passes') && $item->quality < 50): {
                     switch ($item->sell_in){
                         case ($item->sell_in < 0):
                             $item->quality = 0;
@@ -59,11 +70,11 @@ final class GildedRose
                 }
                     break;
 
-                case (str_contains(ucfirst($item->name), 'Sulfuras')):
+                case ($this->checkItemType($item->name, 'Sulfuras')):
                     $item->quality = 80;
                     break;
 
-                case (str_contains(ucfirst($item->name), 'Conjured')):
+                case ($this->checkItemType($item->name, 'Conjured')):
                     if ($item->quality > 1 && $item->sell_in > 0) {
                         $item->quality -= 2;
                     } elseif ($item->quality > 3 && $item->sell_in <= 0) {
