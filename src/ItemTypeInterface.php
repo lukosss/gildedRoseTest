@@ -6,5 +6,5 @@ namespace GildedRose;
 
 interface ItemTypeInterface
 {
-    public function updateItemQuality(int $quality): int;
+    public function updateItemQuality();
 }

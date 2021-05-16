@@ -38,12 +38,12 @@ final class GildedRose
     }
 
     /**
+     * Calls the specific item type Class through implementation and runs updateItemQuality method
      * @param ItemTypeInterface $itemType
-     * @param int $quality
-     * @return int
+     * @return object
      */
-    public function itemTypeUpdateQuality(ItemTypeInterface $itemType, int $quality): int{
-        return $itemType->updateItemQuality($quality);
+    public function itemTypeUpdateQuality(ItemTypeInterface $itemType): object{
+        return $itemType->updateItemQuality();
     }
 
     public function updateQuality(): void
@@ -52,9 +52,8 @@ final class GildedRose
             switch ($item->name) {
 
                 case $this->checkItemType($item->name, 'Aged Brie'):
-                    $itemType = new AgedBrie();
-                    $item->quality = $this->itemTypeUpdateQuality($itemType, $item->quality);
-                    $item->sell_in -= 1;
+                    $itemType = new AgedBrie($item);
+                    $this->itemTypeUpdateQuality($itemType);
                     break;
 
                 case ($this->checkItemType($item->name, 'Backstage passes') && $item->quality < 50): {
