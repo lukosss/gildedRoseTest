@@ -64,7 +64,7 @@ final class GildedRose
                     $this->itemTypeUpdateQuality($itemType);
                     break;
 
-                case ($this->checkItemType($item->name, 'Backstage passes') && $item->quality < 50):
+                case ($this->checkItemType($item->name, 'Backstage passes')):
                     $itemType = new BackstageTicket($item);
                     $this->itemTypeUpdateQuality($itemType);
                     break;
