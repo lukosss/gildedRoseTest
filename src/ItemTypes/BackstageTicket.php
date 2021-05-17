@@ -1,6 +1,5 @@
 <?php
 
-
 namespace GildedRose\ItemTypes;
 
 use GildedRose\ItemTypeInterface;
@@ -24,7 +23,7 @@ class BackstageTicket implements ItemTypeInterface
         if($this->item->sell_in <= 5 && $this->item->sell_in > 0) $this->item->quality += 3;
         if($this->item->quality > 50) $this->item->quality = 50;
         if($this->item->sell_in <= 0) $this->item->quality = 0;
-        $this->item->sell_in -= 1;
+        --$this->item->sell_in;
         return $this->item;
     }
 }

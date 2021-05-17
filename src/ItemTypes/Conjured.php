@@ -1,8 +1,6 @@
 <?php
 
-
 namespace GildedRose\ItemTypes;
-
 
 use GildedRose\ItemTypeInterface;
 
@@ -22,7 +20,7 @@ class Conjured implements ItemTypeInterface
     {
         ($this->item->sell_in > 0) ? $this->item->quality -= 2 : $this->item->quality -= 4;
         if($this->item->quality < 0) $this->item->quality = 0;
-        $this->item->sell_in -= 1;
+        --$this->item->sell_in;
         return $this->item;
     }
 }

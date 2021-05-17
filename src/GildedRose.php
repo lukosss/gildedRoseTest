@@ -47,7 +47,8 @@ final class GildedRose
      * @param ItemTypeInterface $itemType
      * @return object
      */
-    public function itemTypeUpdateQuality(ItemTypeInterface $itemType): object{
+    public function itemTypeUpdateQuality(ItemTypeInterface $itemType): object
+    {
         return $itemType->updateItemQuality();
     }
 
@@ -64,17 +65,17 @@ final class GildedRose
                     $this->itemTypeUpdateQuality($itemType);
                     break;
 
-                case ($this->checkItemType($item->name, 'Backstage passes')):
+                case $this->checkItemType($item->name, 'Backstage passes'):
                     $itemType = new BackstageTicket($item);
                     $this->itemTypeUpdateQuality($itemType);
                     break;
 
-                case ($this->checkItemType($item->name, 'Sulfuras')):
+                case $this->checkItemType($item->name, 'Sulfuras'):
                     $itemType = new Sulfuras($item);
                     $this->itemTypeUpdateQuality($itemType);
                     break;
 
-                case ($this->checkItemType($item->name, 'Conjured')):
+                case $this->checkItemType($item->name, 'Conjured'):
                     $itemType = new Conjured($item);
                     $this->itemTypeUpdateQuality($itemType);
                     break;
@@ -86,3 +87,4 @@ final class GildedRose
         }
     }
 }
+
