@@ -158,11 +158,10 @@ class GildedRoseTest extends TestCase
     {
         $items = [
             new Item('+5 Zweihander', 10, 20),
-            new Item('Aged Brie', 7, 0),
+            new Item('Aged Brie Dziugas', 7, 0),
             new Item('Shield of Sulfuras', 0, 80),
-            new Item('Backstage passes to a TAFKAL80ETC concert', 10, 20),
-            // this conjured item does not work properly yet
-            new Item('Conjured Mana Cake', 3, 6),
+            new Item('Backstage passes to a Folktale concert', 10, 20),
+            new Item('Conjured Sausage', 3, 6),
         ];
         $gildedRose = new GildedRose($items);
         $gildedRose->updateQuality();
@@ -171,7 +170,7 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(9, $items[0]->sell_in);
         $this->assertEquals(19, $items[0]->quality);
 
-        $this->assertEquals('Aged Brie', $items[1]->name);
+        $this->assertEquals('Aged Brie Dziugas', $items[1]->name);
         $this->assertEquals(6, $items[1]->sell_in);
         $this->assertEquals(1, $items[1]->quality);
 
@@ -179,11 +178,11 @@ class GildedRoseTest extends TestCase
         $this->assertEquals(0, $items[2]->sell_in);
         $this->assertEquals(80, $items[2]->quality);
 
-        $this->assertEquals('Backstage passes to a TAFKAL80ETC concert', $items[3]->name);
+        $this->assertEquals('Backstage passes to a Folktale concert', $items[3]->name);
         $this->assertEquals(9, $items[3]->sell_in);
         $this->assertEquals(22, $items[3]->quality);
 
-        $this->assertEquals('Conjured Mana Cake', $items[4]->name);
+        $this->assertEquals('Conjured Sausage', $items[4]->name);
         $this->assertEquals(2, $items[4]->sell_in);
         $this->assertEquals(4, $items[4]->quality);
     }
