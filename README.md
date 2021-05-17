@@ -1,7 +1,8 @@
 # Introduction
 
 Hello, this is my attempt at the GildedRose-Refactoring-Kata, I have reformatted the code to be more readable,
-easier to modify and add new features to. I have used an interface that is implemented by all the different
+easier to modify and add new features to. I was not sure if I was allowed to change the GildedRose class from final to normal and then extend it with new item type classes, so
+I have used an interface that is implemented by all the different
 types of items. Now the updateQuality method just checks the item name and then calls the updateItemQuality
 method specifically from that item type class. I added 14 tests, all of them still pass, and the code complies to [Gilded Rose Requirements](GildedRoseRequirements.txt)
 
@@ -25,7 +26,7 @@ git clone https://github.com/lukosss/gildedRoseTest.git
 Install all the dependencies using composer
 
 ```shell script
-cd ./GildedRoseTest
+cd ./gildedRoseTest
 composer install
 ```
 
