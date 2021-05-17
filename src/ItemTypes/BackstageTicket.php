@@ -19,7 +19,7 @@ class BackstageTicket implements ItemTypeInterface
 
     public function updateItemQuality(): object
     {
-        switch ($this->item->sell_in){
+        switch ($this->item->sell_in) {
             case ($this->item->sell_in < 0):
                 $this->item->quality = 0;
                 break;
@@ -36,6 +36,7 @@ class BackstageTicket implements ItemTypeInterface
                 $this->item->quality += 1;
                 break;
         }
+        if($this->item->quality > 50) $this->item->quality = 50;
         $this->item->sell_in -= 1;
         return $this->item;
     }

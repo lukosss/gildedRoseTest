@@ -3,9 +3,10 @@
 
 namespace GildedRose\ItemTypes;
 
+
 use GildedRose\ItemTypeInterface;
 
-class AgedBrie implements ItemTypeInterface
+class Common implements ItemTypeInterface
 {
     /**
      * @var object
@@ -19,7 +20,8 @@ class AgedBrie implements ItemTypeInterface
 
     public function updateItemQuality(): object
     {
-        if ($this->item->quality < 50) $this->item->quality += 1;
+        ($this->item->sell_in > 0) ? $this->item->quality -= 1 : $this->item->quality -= 2;
+        if($this->item->quality < 0) $this->item->quality = 0;
         $this->item->sell_in -= 1;
         return $this->item;
     }

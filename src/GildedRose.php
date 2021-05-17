@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace GildedRose;
 
 use GildedRose\ItemTypes\AgedBrie;
+use GildedRose\ItemTypes\BackstageTicket;
+use GildedRose\ItemTypes\Common;
+use GildedRose\ItemTypes\Conjured;
+use GildedRose\ItemTypes\Sulfuras;
 
 final class GildedRose
 {
@@ -19,6 +23,7 @@ final class GildedRose
     }
 
     /**
+     * Just for testing purposes
      * @return Item[]
      */
     public function getItems(): array
@@ -38,7 +43,7 @@ final class GildedRose
     }
 
     /**
-     * Calls the specific item type Class through implementation and runs updateItemQuality method
+     * Calls the specific item type Class through interface implementation and runs updateItemQuality method
      * @param ItemTypeInterface $itemType
      * @return object
      */
@@ -46,6 +51,9 @@ final class GildedRose
         return $itemType->updateItemQuality();
     }
 
+    /**
+     * Iterates through each item and updates their properties differently depending on type
+     */
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
@@ -56,55 +64,24 @@ final class GildedRose
                     $this->itemTypeUpdateQuality($itemType);
                     break;
 
-                case ($this->checkItemType($item->name, 'Backstage passes') && $item->quality < 50): {
-                    switch ($item->sell_in){
-                        case ($item->sell_in < 0):
-                            $item->quality = 0;
-                            $item->sell_in -= 1;
-                            break;
-
-                        case ($item->sell_in < 6):
-                            $item->quality += 3;
-                            $item->sell_in -= 1;
-                            break;
-
-                        case ($item->sell_in < 11):
-                            $item->quality += 2;
-                            $item->sell_in -= 1;
-                            break;
-
-                        case ($item->sell_in >= 11):
-                            $item->quality += 1;
-                            $item->sell_in -= 1;
-                            break;
-                    }
-                }
+                case ($this->checkItemType($item->name, 'Backstage passes') && $item->quality < 50):
+                    $itemType = new BackstageTicket($item);
+                    $this->itemTypeUpdateQuality($itemType);
                     break;
 
                 case ($this->checkItemType($item->name, 'Sulfuras')):
-                    $item->quality = 80;
+                    $itemType = new Sulfuras($item);
+                    $this->itemTypeUpdateQuality($itemType);
                     break;
 
                 case ($this->checkItemType($item->name, 'Conjured')):
-                    if ($item->quality > 1 && $item->sell_in > 0) {
-                        $item->quality -= 2;
-                    } elseif ($item->quality > 3 && $item->sell_in <= 0) {
-                        $item->quality -= 4;
-                    } elseif ($item->quality <= 3 && $item->sell_in <= 0) {
-                        $item->quality = 0;
-                    }
-                    $item->sell_in -= 1;
+                    $itemType = new Conjured($item);
+                    $this->itemTypeUpdateQuality($itemType);
                     break;
 
                 default:
-                    if ($item->quality > 0 && $item->sell_in > 0) {
-                        $item->quality -= 1;
-                    } elseif ($item->quality > 1 && $item->sell_in <= 0) {
-                        $item->quality -= 2;
-                    } elseif ($item->quality == 1 && $item->sell_in <= 0) {
-                        $item->quality -= 1;
-                    }
-                    $item->sell_in -= 1;
+                    $itemType = new Common($item);
+                    $this->itemTypeUpdateQuality($itemType);
             }
         }
     }
